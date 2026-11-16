@@ -16,8 +16,9 @@ data/
   output_band1_com12m.im.field-0.spw-{0,1,2,3}.psf.fits    dirty beam on the same grid
 ```
 
-Each `.data.npz` holds one array of shape (6, nvis) in the format eszee's
-`ALMA.add_visibilities` reads. The four spectral windows span ALMA
+Each `.data.npz` holds one array of shape (6, nvis): u, v (wavelengths),
+real, imaginary, weight and frequency per visibility, the format
+eszee's `add_visibilities` reads. The four spectral windows span ALMA
 Band 1 (around 35–50 GHz).
 
 ## Use
@@ -27,5 +28,6 @@ from eszee.data import ALMA
 
 alma = ALMA()
 for spw in range(4):
-    alma.add_visibilities(f"data/output_band1_com12m.im.field-0.spw-{spw}.data.npz")
+    base = f"data/output_band1_com12m.im.field-0.spw-{spw}"
+    alma.add_visibilities(field=0, vis=f"{base}.data.npz", pb=f"{base}.pbeam.fits")
 ```
